@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ role.name }} — Rol huquqlari{% endblock %}
+
+{% block content %}
+<h1>{{ role.name }} — huquqlar</h1>
+<form method="post" class="form">
+    {% csrf_token %}
+    <table class="table permissions-table">
+        <thead>
+            <tr>
+                <th>Modul</th>
+                <th>O'qish</th>
+                <th>Yozish</th>
+                <th>O'chirish</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in permission_rows %}
+            <tr>
+                <td>{{ row.label }}</td>
+                <td>{{ row.read_field }}</td>
+                <td>{{ row.write_field }}</td>
+                <td>{{ row.delete_field }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Saqlash</button>
+    <a href="{% url 'admin-role-list' %}" class="btn btn-secondary">Orqaga</a>
+</form>
+{% endblock %}

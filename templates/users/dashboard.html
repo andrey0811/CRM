@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — Plant CRM{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<p>Xush kelibsiz, {{ user.full_name }}!</p>
+<p>Email: {{ user.email }} | Tur: {{ user.get_user_type_display }}{% if user.role %} | Rol: {{ user.role.name }}{% endif %}</p>
+{% endblock %}

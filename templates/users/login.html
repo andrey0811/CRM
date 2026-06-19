@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Kirish — Plant CRM{% endblock %}
+
+{% block content %}
+<div class="auth-card">
+    <h1>Kirish</h1>
+    <form method="post" class="form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <ul class="errors">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="field">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="field">
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Kirish</button>
+    </form>
+</div>
+{% endblock %}

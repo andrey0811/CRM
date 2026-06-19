@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Kod tasdiqlash — Plant CRM{% endblock %}
+
+{% block content %}
+<div class="auth-card">
+    <h1>Tasdiqlash kodi</h1>
+    <p class="hint">{{ user.email }} manziliga yuborilgan 6 xonali kodni kiriting.</p>
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="field">
+            <label for="{{ form.code.id_for_label }}">{{ form.code.label }}</label>
+            {{ form.code }}
+            {{ form.code.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Tasdiqlash</button>
+        <a href="{% url 'login' %}" class="btn btn-secondary">Orqaga</a>
+    </form>
+</div>
+{% endblock %}

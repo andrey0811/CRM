@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Rollar — Admin{% endblock %}
+
+{% block content %}
+<h1>Rollar</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nomi</th>
+            <th>Tizim roli</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for role in roles %}
+        <tr>
+            <td>{{ role.name }}</td>
+            <td>{% if role.is_system %}Ha{% else %}Yo'q{% endif %}</td>
+            <td><a href="{% url 'admin-role-edit' role.pk %}">Huquqlarni sozlash</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} — Admin{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<div class="grid-2">
+    <section>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Saqlash</button>
+            <a href="{% url 'admin-user-list' %}" class="btn btn-secondary">Orqaga</a>
+        </form>
+    </section>
+
+    <section class="actions-panel">
+        <h2>Amallar</h2>
+        {% if edited_user.is_blocked %}
+        <form method="post" action="{% url 'admin-user-unblock' edited_user.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary">Blokdan chiqarish</button>
+        </form>
+        {% else %}
+        <form method="post" action="{% url 'admin-user-block' edited_user.pk %}">
+            {% csrf_token %}
+            <input type="text" name="reason" placeholder="Bloklash sababi" class="input">
+            <button type="submit" class="btn btn-danger">Bloklash</button>
+        </form>
+        {% endif %}
+
+        <form method="post" action="{% url 'admin-user-archive' edited_user.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Arxivlashni tasdiqlaysizmi?')">Arxivlash</button>
+        </form>
+
+        <form method="post" action="{% url 'admin-force-logout' edited_user.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Majburiy chiqish</button>
+        </form>
+
+        <h3>Faol sessiyalar</h3>
+        {% if active_sessions %}
+        <ul>
+            {% for session in active_sessions %}
+            <li>{{ session.login_at }} — {{ session.ip_address|default:"—" }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Faol sessiya yo'q</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

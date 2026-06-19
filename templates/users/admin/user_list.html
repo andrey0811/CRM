@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Foydalanuvchilar — Admin{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Foydalanuvchilar</h1>
+    <a href="{% url 'admin-user-create' %}" class="btn btn-primary">Yangi foydalanuvchi</a>
+</div>
+
+<form method="get" class="filter-form form-inline">
+    {{ search_form.q }}
+    {{ search_form.user_type }}
+    {{ search_form.role }}
+    {{ search_form.status }}
+    <button type="submit" class="btn btn-secondary">Filter</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Ism</th>
+            <th>Tur</th>
+            <th>Rol</th>
+            <th>Holat</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.email }}</td>
+            <td>{{ u.full_name }}</td>
+            <td>{{ u.get_user_type_display }}</td>
+            <td>{{ u.role|default:"—" }}</td>
+            <td>
+                {% if u.is_blocked %}Bloklangan
+                {% elif not u.is_active %}Nofaol
+                {% else %}Faol{% endif %}
+            </td>
+            <td><a href="{% url 'admin-user-edit' u.pk %}">Tahrirlash</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">Foydalanuvchi topilmadi</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
